@@ -25,13 +25,13 @@ __version__ = "1.1.1"
 
 import re
 import httplib2
-import urllib
+from urllib.parse import urlencode
 import base64
 try:
     import simplejson as json
 except:
     import json
-from httplib import responses
+from http.client import responses
 from .endpoints import mapping_table as mapping_table_v1
 from .endpoints_v2 import mapping_table as mapping_table_v2
 
@@ -74,7 +74,7 @@ def get_id_from_url(url):
 def clean_kwargs(kwargs):
     """Format the kwargs to conform to API"""
 
-    for key, value in kwargs.iteritems():
+    for key, value in kwargs.tems():
         if hasattr(value, '__iter__'):
             kwargs[key] = ','.join(map(str, value))
 
@@ -184,7 +184,7 @@ class Zendesk(object):
                                     "'%s'" % (api_call, kw))
             else:
                 clean_kwargs(kwargs)
-                url += '?' + urllib.urlencode(kwargs)
+                url += '?' + urlencode(kwargs)
 
             # the 'search' endpoint in an open Zendesk site doesn't return a
             # 401 to force authentication. Inject the credentials in the
@@ -238,6 +238,6 @@ class Zendesk(object):
         if response.get('location'):
             return response.get('location')
         elif content.strip():
-            return json.loads(content)
+            return json.loads(content.decode('utf-8'))
         else:
             return responses[response_status]
