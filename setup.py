@@ -10,7 +10,7 @@ setup(
 	author_email = 'max@eventbrite.com',
 	packages = ['zendesk'],
 	include_package_data = True,
-	install_requires = ['httplib2', 'simplejson'],
+	install_requires = ['httplib2==0.15.0', 'simplejson'],
 	license='LICENSE.txt',
 	url = 'https://github.com/eventbrite/zendesk',
 	keywords = 'zendesk api helpdesk',
